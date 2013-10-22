@@ -87,8 +87,4 @@ public class HttpRequestBuilder {
     public static HttpRequestBuilder Post(String url) {
         return new HttpRequestBuilder(url, HttpMethodType.POST);
     }
-    
-    public enum HttpMethodType {
-        GET, POST;
-    }
 }
