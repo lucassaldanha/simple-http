@@ -39,3 +39,8 @@ Need more power? You choose! Anytime you need you can get the reference to the *
     HttpRequest request = HttpRequestBuilder.Get("http://www.google.com").build();  //Building our HttpRequest object
     HttpClient client = request.getClient();
     HttpMethod method = request.getMethod();
+    
+Limitations
+-----------
+
+In the current version there is support to GET and POST http methods. I'll try to provide more methods on the next versions. Feel free to contribute! :)
