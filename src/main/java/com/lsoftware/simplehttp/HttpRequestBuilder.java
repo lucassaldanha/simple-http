@@ -1,10 +1,13 @@
 package com.lsoftware.simplehttp;
 
+import java.io.UnsupportedEncodingException;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 
@@ -69,6 +72,24 @@ public class HttpRequestBuilder {
         
         Header h = new Header(headerName, headerValue);
         httpMethod.addRequestHeader(h);
+        return this;
+    }
+	
+	public HttpRequestBuilder setContent(String content, String contentType, String charset) {
+        if (!(httpMethod instanceof PostMethod)) {
+            throw new IllegalStateException("Http request must be POST.");
+        }
+        PostMethod post = (PostMethod) httpMethod;
+        RequestEntity entity = null;
+        try {
+            entity = new StringRequestEntity(content, contentType, charset);
+        } catch (UnsupportedEncodingException ex) {
+            throw new IllegalStateException("Invalid charset.");
+        }
+        if (entity == null) {
+            throw new IllegalStateException("Invalid content.");
+        }
+        post.setRequestEntity(entity);
         return this;
     }
     
