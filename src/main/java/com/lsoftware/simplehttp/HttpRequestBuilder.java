@@ -1,13 +1,20 @@
 package com.lsoftware.simplehttp;
 
+import java.io.File;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
+import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 
@@ -74,20 +81,50 @@ public class HttpRequestBuilder {
         httpMethod.addRequestHeader(h);
         return this;
     }
-	
-	public HttpRequestBuilder setContent(String content, String contentType, String charset) {
+   
+    public HttpRequestBuilder setByteArrayContent(byte[] content) {
+        return setContent(new ByteArrayRequestEntity(content));
+    }
+    
+    public HttpRequestBuilder setByteArrayContent(byte[] content, String contentType) {
+        return setContent(new ByteArrayRequestEntity(content, contentType));
+    }
+    
+    public HttpRequestBuilder setFileContent(File content, String contentType) {
+        return setContent(new FileRequestEntity(content, contentType));
+    }
+    
+    public HttpRequestBuilder setInputStreamContent(InputStream content) {
+        return setContent(new InputStreamRequestEntity(content));
+    }
+    
+    public HttpRequestBuilder setInputStreamContent(InputStream content, String contentType) {
+        return setContent(new InputStreamRequestEntity(content, contentType));
+    }
+    
+    public HttpRequestBuilder setMultipartContent(Part[] parts, HttpMethodParams params) {
+        return setContent(new MultipartRequestEntity(parts, params));
+    }
+    
+    public HttpRequestBuilder setStringContent(String content) {
+        return setContent(new StringRequestEntity(content));
+    }
+    
+    public HttpRequestBuilder setStringContent(String content, String contentType, String charset) {
+        try {
+            return setContent(new StringRequestEntity(content, contentType, charset));
+        } catch (UnsupportedEncodingException ex) {
+            throw  new RuntimeException(ex);
+        }
+    }
+    
+    private HttpRequestBuilder setContent(RequestEntity entity) {
         if (!(httpMethod instanceof PostMethod)) {
             throw new IllegalStateException("Http request must be POST.");
         }
         PostMethod post = (PostMethod) httpMethod;
-        RequestEntity entity = null;
-        try {
-            entity = new StringRequestEntity(content, contentType, charset);
-        } catch (UnsupportedEncodingException ex) {
-            throw new IllegalStateException("Invalid charset.");
-        }
         if (entity == null) {
-            throw new IllegalStateException("Invalid content.");
+            throw new IllegalStateException("Content can't be null.");
         }
         post.setRequestEntity(entity);
         return this;

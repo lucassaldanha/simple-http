@@ -19,7 +19,7 @@ public class HttpRequest {
 
     protected HttpRequest(HttpClient client, HttpMethod method) {
         this.client = client;
-        this.method = method;
+        this.method = method;        
     }
     
     /**

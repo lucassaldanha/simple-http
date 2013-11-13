@@ -3,7 +3,7 @@
  
     <groupId>com.lsoftware</groupId>
     <artifactId>simple-http</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <name>Simple Http Requests</name>
     <description>Library to simplify HTTP methods execution in Java</description>
@@ -40,7 +40,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-                
+
     </dependencies>
   
 </project>
