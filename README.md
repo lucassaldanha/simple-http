@@ -8,6 +8,8 @@ We all know that sometimes we need to do a HTTP request but we don't have much t
 
 Simple HTTP relies on top of Apache Http Components (http://hc.apache.org/httpclient-3.x/) to provide simple HTTP methods execution.
 
+**IMPORTANT**: note that newer versions of Http Apache Components ([4.2 and over](http://mvnrepository.com/artifact/org.apache.httpcomponents/fluent-hc)) comes with a built-in fluent api. If you are using newer versions of Http Components I recomend you to use their fluent api implementation ([see the docs] (https://hc.apache.org/httpcomponents-client-ga/tutorial/html/fluent.html)).
+
 Usage
 -----
 
